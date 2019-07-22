@@ -124,7 +124,7 @@ function solveMaze(maze, x = 0, y = 0) {
   maze[y][x] = '*';
 
   // console.log(maze);
-  // console.log('move');  
+  // console.log('move');
 
   if (x + 1 >= maze[y].length || maze[y][x + 1] === '*') {
     if (maze[y + 1][x] !== '*' && y + 1 <= maze.length) {
@@ -173,7 +173,6 @@ let bigMaze2 = [
 //9. Find All possible solutions to the maze
 
 function findAllMazeSolutions(maze, x = 0, y = 0, path = '') {
-
   //Return an array of path strings
 
   // Node 1 -> ['R']
@@ -185,29 +184,124 @@ function findAllMazeSolutions(maze, x = 0, y = 0, path = '') {
   // Node 7 -> ['RRDDRRR', 'RRDDRRU', 'RRDDLLD']
 
   if (maze[y][x] === 'e') {
-    console.log(path)
-    return
+    console.log(path);
+    return;
   }
 
-  maze[y][x] = '*'
+  maze[y][x] = '*';
 
-  
   if (y > 0 && maze[y - 1][x] && maze[y - 1][x] !== '*') {
-    findAllMazeSolutions(maze, x, y - 1, path + 'U')
-
+    findAllMazeSolutions(maze, x, y - 1, path + 'U');
   }
   if (x + 1 < maze[y].length && maze[y][x + 1] && maze[y][x + 1] !== '*') {
-    findAllMazeSolutions(maze, x + 1, y, path + 'R')
-
+    findAllMazeSolutions(maze, x + 1, y, path + 'R');
   }
   if (y + 1 < maze.length && maze[y + 1][x] && maze[y + 1][x] !== '*') {
-    findAllMazeSolutions(maze, x, y + 1, path + 'D')
-
+    findAllMazeSolutions(maze, x, y + 1, path + 'D');
   }
   if (x > 0 && maze[y][x - 1] && maze[y][x - 1] !== '*') {
-    findAllMazeSolutions(maze, x - 1, y, path + 'L')
+    findAllMazeSolutions(maze, x - 1, y, path + 'L');
   }
-
 }
 
-console.log(findAllMazeSolutions(bigMaze))
+// console.log(findAllMazeSolutions(bigMaze))
+
+//psuedo code 'east'
+
+//prefix=e remainder = ast
+//prefix=ea  rem=st  //prefix=es rem=at //prefix=et rem=ea
+function findAllAnn(str) {
+  let allAnn = [];
+  function annagram(remaining, prefix = '') {
+    if (!remaining.length) {
+      allAnn.push(prefix);
+      return;
+    }
+    for (let i = 0; i < remaining.length; i++) {
+      annagram(
+        remaining.slice(0, i) + remaining.slice(i + 1),
+        prefix + remaining[i]
+      );
+    }
+  }
+  annagram(str);
+  return allAnn;
+}
+
+// console.log(findAllAnn('east'), findAllAnn('east').length);
+
+let organization = {
+  Zuckerberg: {
+    Schroepfer: {
+      Bosworth: {
+        Steve: {},
+        Kyle: {},
+        Andra: {}
+      },
+      Zhao: {
+        Richie: {},
+        Sofia: {},
+        Jen: {}
+      },
+      Badros: {
+        John: {},
+        Mike: {},
+        Pat: {}
+      },
+      Parikh: {
+        Zach: {},
+        Ryan: {},
+        Tes: {}
+      }
+    },
+    Schrage: {
+      VanDyck: {
+        Sabrina: {},
+        Michelle: {},
+        Josh: {}
+      },
+      Swain: {
+        Blanch: {},
+        Tom: {},
+        Joe: {}
+      },
+      Frankovsky: {
+        Jasee: {},
+        Brian: {},
+        Margaret: {}
+      }
+    },
+    Sandberg: {
+      Goler: {
+        Eddie: {},
+        Julie: {},
+        Annie: {}
+      },
+      Hernandez: {
+        Rowi: {},
+        Inga: {},
+        Morgan: {}
+      },
+      Moissinac: {
+        Amy: {},
+        Chuck: {},
+        Vinni: {}
+      },
+      Kelley: {
+        Eric: {},
+        Ana: {},
+        Wes: {}
+      }
+    }
+  }
+};
+
+function orgChart(obj, level = 0) {
+  const indent = ' '.repeat(4 * level);
+  Object.keys(obj).forEach(key => {
+    console.log(indent + key);
+    orgChart(obj[key], level + 1);
+  });
+}
+
+orgChart(organization);
